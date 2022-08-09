@@ -1,14 +1,14 @@
 import connection from "../dbStrategy/database.js";
 
-async function addUser(email, password, username, userPicture) {
+async function addUser(email, password, username, profilePicture) {
     return connection.query(
         `INSERT INTO users (
             email,
             password,
             username,
-            "userPicture")
+            "profilePicture")
         VALUES ($1, $2, $3, $4);`,
-        [email, password, username, userPicture]
+        [email, password, username, profilePicture]
     );
 }
 
