@@ -21,7 +21,7 @@ async function getUser(email) {
 
 async function getUsersList(){
     return connection.query(`
-        SELECT id, username
+        SELECT *
         FROM users;
     `)
 }
