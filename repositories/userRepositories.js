@@ -19,7 +19,15 @@ async function getUser(email) {
     );
 }
 
+async function getUsersList(){
+    return connection.query(`
+        SELECT id, username
+        FROM users;
+    `)
+}
+
 export const userRepository = {
     addUser,
-    getUser
+    getUser,
+    getUsersList
 }
