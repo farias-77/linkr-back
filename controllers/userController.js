@@ -2,7 +2,7 @@ import { userRepository } from "../repositories/userRepositories.js";
 
 export async function getUsers(req, res){
     try{
-        const { searchInput } = req.body;
+        const { searchInput } = req.params;
         const { rows: usersList } = await userRepository.getUsersList();
         const filteredUsers = usersList.filter(user => user.username.startsWith(`${searchInput}`));
 
