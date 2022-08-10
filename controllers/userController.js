@@ -9,3 +9,16 @@ export async function getUsers(req, res){
         return res.status(500).send(error.message);
     }
 }
+
+export async function getUserPosts(req, res){
+    try{
+        const id = req.params.id;
+        
+        const { rows: postsList } = await userRepository.getPostsByUserId(id);
+
+        return res.status(200).send(postsList);
+    }catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
