@@ -26,7 +26,7 @@ async function getUsersList(){
     `)
 }
 
-async function getUserPosts(id){
+async function getPostsByUserId(id){
     return connection.query(`
         SELECT 
             posts.*, 
@@ -42,5 +42,5 @@ export const userRepository = {
     addUser,
     getUser,
     getUsersList,
-    getUserPosts
+    getPostsByUserId
 }
