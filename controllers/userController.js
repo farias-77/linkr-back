@@ -14,7 +14,7 @@ export async function getUsers(req, res){
 
 export async function getUserPosts(req, res){
     try{
-        const id = req.params.id;
+        const id = res.locals.id;
         
         const { rows: postsList } = await userRepository.getPostsByUserId(id);
 

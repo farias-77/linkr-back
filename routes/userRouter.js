@@ -1,5 +1,5 @@
 import { getUsers, getUserPosts } from "../controllers/userController.js";
-import { tokenMiddleware } from "../middlewares/tokenMiddleware";
+import { tokenMiddleware } from "../middlewares/tokenMiddleware.js";
 import { Router } from "express";
 
 const router = Router();
