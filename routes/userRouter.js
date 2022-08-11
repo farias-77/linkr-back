@@ -1,4 +1,4 @@
-import { getUsers, getUserPosts, getUserInfo } from "../controllers/userController.js";
+import { getUsers, getUserPosts } from "../controllers/userController.js";
 import { tokenMiddleware } from "../middlewares/tokenMiddleware.js";
 import { Router } from "express";
 
