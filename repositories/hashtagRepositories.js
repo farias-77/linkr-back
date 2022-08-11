@@ -21,7 +21,8 @@ async function getHashtagPosts(hashtagId){
                 FROM posts_hashtags
                 JOIN posts ON posts.id = posts_hashtags."postId"
                 JOIN users ON users.id = posts."userId"
-                WHERE posts_hashtags."hashtagId" = $1`,[hashtagId])
+                WHERE posts_hashtags."hashtagId" = $1
+                ORDER BY posts.id DESC`,[hashtagId])
 }
 
 export const hashtagRepository = {

@@ -14,7 +14,7 @@ export async function getSingleHashtag(req,res){
     try{
         const possibleHashtag = await hashtagRepository.hashtagExist(hashtag);
         if(possibleHashtag.rowCount === 0){
-            return res.sendStatus(404);
+            return res.status(404).send([]);
         }
         const { id: hashtagId} = possibleHashtag.rows[0];
         
