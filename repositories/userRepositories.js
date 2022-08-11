@@ -36,7 +36,7 @@ async function getPostsByUserId(id){
 
 async function getUsername(id){
     return connection.query(`
-        SELECT username
+        SELECT username, "profilePicture"
         FROM users
         WHERE id = $1;
     `, [id]);

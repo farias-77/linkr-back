@@ -19,7 +19,7 @@ export async function getUserPosts(req, res){
         const { rows: postsList } = await userRepository.getPostsByUserId(id);
         const { rows: usernameDb } = await userRepository.getUsername(id);
 
-        const response = {username: usernameDb[0].username, posts: postsList}
+        const response = {username: usernameDb[0].username, profilePicture: usernameDb[0].profilePicture, posts: postsList}
 
         return res.status(200).send(response);
     }catch (error) {
