@@ -28,13 +28,17 @@ async function getUsersList(){
 
 async function getPostsByUserId(id){
     return connection.query(`
-        SELECT 
-            posts.*, 
-            users.username
+        SELECT *
         FROM posts
-        JOIN users
-        ON users.id = posts."userId"
         WHERE posts."userId" = $1;
+    `, [id]);
+}
+
+async function getUsername(id){
+    return connection.query(`
+        SELECT username
+        FROM users
+        WHERE id = $1;
     `, [id]);
 }
 
@@ -42,5 +46,6 @@ export const userRepository = {
     addUser,
     getUser,
     getUsersList,
-    getPostsByUserId
+    getPostsByUserId,
+    getUsername
 }
