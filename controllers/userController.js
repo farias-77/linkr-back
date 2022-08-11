@@ -17,8 +17,11 @@ export async function getUserPosts(req, res){
         const { id } = req.params;
         
         const { rows: postsList } = await userRepository.getPostsByUserId(id);
+        const { rows: usernameDb } = await userRepository.getUsername(id);
 
-        return res.status(200).send(postsList);
+        const response = {username: usernameDb[0].username, posts: postsList}
+
+        return res.status(200).send(response);
     }catch (error) {
         return res.status(500).send(error.message);
     }
