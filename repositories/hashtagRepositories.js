@@ -25,8 +25,18 @@ async function getHashtagPosts(hashtagId){
                 ORDER BY posts.id DESC`,[hashtagId])
 }
 
+async function getAllHashtags(){
+    return await connection.query(`SELECT id, hashtag FROM hashtags`)
+}
+
+async function insertHashtag(hashtag){
+    return await connection.query(`INSERT INTO hashtags (hashtag) VALUES ($1)`,[hashtag])
+}
+
 export const hashtagRepository = {
     trendingHashtags,
     hashtagExist,
-    getHashtagPosts
+    getHashtagPosts,
+    getAllHashtags,
+    insertHashtag
 }
