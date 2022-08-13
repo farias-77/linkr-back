@@ -21,7 +21,7 @@ async function whoLiked(postId){
         SELECT 
             likes.*,
             users.id,
-            users.name
+            users.username
         FROM likes
         JOIN users
         ON users.id = likes."userId"
