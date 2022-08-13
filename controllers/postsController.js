@@ -24,7 +24,7 @@ export async function registerPost(req, res) {
         
         await metadataMiddleware(url, posts[0].id);
 
-        const hashtags = hashtagVerifier(text);
+        const hashtags = await hashtagVerifier(text);
 
         if (hashtags.length > 0) {
             await hashtags.map(hashtag => 

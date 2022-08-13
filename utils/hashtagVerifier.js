@@ -1,6 +1,7 @@
 import { hashtagRepository } from "../repositories/hashtagRepositories.js";
 
 export async function hashtagVerifier(text){
+    console.log(text)
     const arrayHashtags = text.split(' ').filter(isHashtag);
     const {rows: hashtags} = await hashtagRepository.getAllHashtags();
     let idCounter = hashtags.length;
