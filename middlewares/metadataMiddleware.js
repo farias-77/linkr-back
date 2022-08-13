@@ -1,12 +1,10 @@
 import urlMetadata from "url-metadata"; 
 import connection from "../dbStrategy/database.js";
 
-export async function metadataMiddleware(req, res){
+export async function metadataMiddleware(url, postId){
        
-    const { url } =  req.body;
-    const postId = res.locals.postId;
-        
-    const metadata = await urlMetadata(url)
+    console.log("entrou")
+    const metadata = await urlMetadata(url);
 
     connection.query(`
         INSERT INTO metadata ("postId", title, image, description)

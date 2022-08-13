@@ -22,8 +22,7 @@ export async function registerPost(req, res) {
             LIMIT 1;
         `);
         
-        res.locals.postId = posts[0].id;
-        await metadataMiddleware();
+        await metadataMiddleware(url, posts[0].id);
 
 
         return res.sendStatus(201);
