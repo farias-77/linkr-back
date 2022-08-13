@@ -12,25 +12,19 @@ export async function likeOrDislike(req,res){
         const isLiked = await likeRepository.isLiked(postId,userId);
         if(isLiked.rowCount !== 0){
             await likeRepository.dislike(postId,userId);
-            res.sendStatus(200);
+            
+            const { rows: whoLiked } = await likeRepository.whoLiked(postId);
+            const response = whoLiked.map(object => {return object.username});
+
+            res.status(200).send(response);
         }else{
             await likeRepository.like(postId,userId);
-            res.sendStatus(200);
+            
+            const { rows: whoLiked } = await likeRepository.whoLiked(postId);
+            const response = whoLiked.map(object => {return object.username});
+
+            res.status(200).send(response);
         }
-    }catch(error){
-        res.status(500).send(error.message);
-    }
-
-}
-
-export async function getWhoLiked(req,res){
-    try{
-        const postId = Number(req.params.postId);
-        const { rows: whoLiked } = await likeRepository.whoLiked(postId);
-        
-        const response = whoLiked.map(object => {return object.username});
-        
-        return res.send(response);
     }catch(error){
         res.status(500).send(error.message);
     }
