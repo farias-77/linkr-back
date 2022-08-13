@@ -5,20 +5,14 @@ export async function metadataMiddleware(req, res){
     try{        
         const { url } =  req.body;
         const postId = res.locals.postId;
+        
+        const metadata = await urlMetadata(url)
 
-        urlMetadata(`${url}`).then(
-            function (metadata) { // success handler
-                console.log(metadata)
-                
-                connection.query(`
-                    INSERT INTO metadata ("postId", title, image, description)
-                    VALUES ($1, $2, $3, $4)
-                `,[postId, metadata.title, metadata.image, metadata.description]);
-            },
-
-            function (error) { // failure handler
-                console.log(error)
-            });
+        connection.query(`
+            INSERT INTO metadata ("postId", title, image, description)
+            VALUES ($1, $2, $3, $4)
+        `,[postId, metadata.title, metadata.image, metadata.description]);
+            
 
         return;
     }catch(error){

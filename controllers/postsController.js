@@ -21,6 +21,7 @@ export async function registerPost(req, res) {
             ORDER BY "createdAt" DESC
             LIMIT 1;
         `);
+        
         res.locals.postId = posts[0].id;
         await metadataMiddleware();
 
