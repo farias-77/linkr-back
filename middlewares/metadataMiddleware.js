@@ -7,7 +7,7 @@ export async function metadataMiddleware(req, res){
         const postId = res.locals.postId;
 
         urlMetadata(url).then(
-            function (metadata) { // success handler
+            async function (metadata) { // success handler
                 try{
                     await connection.query(`
                         INSERT INTO metadata ("postId", title, image, description)
