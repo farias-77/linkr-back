@@ -22,3 +22,15 @@ export async function likeOrDislike(req,res){
     }
 
 }
+
+export async function getWhoLiked(req,res){
+    try{
+        const postId = Number(req.params.postId);
+        const { rows: whoLiked } = await likeRepository.whoLiked(postId);
+
+        return res.send(whoLiked);
+    }catch(error){
+        res.status(500).send(error.message);
+    }
+
+}
