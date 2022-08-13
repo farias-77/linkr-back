@@ -1,5 +1,7 @@
 import { userRepository } from "../repositories/userRepositories.js";
 
+import { getPostsLikes } from "../utils/getLikes.js";
+
 export async function getUsers(req, res){
     try{
         const { searchInput } = req.params;
@@ -19,7 +21,9 @@ export async function getUserPosts(req, res){
         const { rows: postsList } = await userRepository.getPostsByUserId(id);
         const { rows: usernameDb } = await userRepository.getUsername(id);
 
-        const response = {username: usernameDb[0].username, profilePicture: usernameDb[0].profilePicture, posts: postsList}
+        const userPostsWLikes = await getPostsLikes(postsList);
+
+        const response = {username: usernameDb[0].username, profilePicture: usernameDb[0].profilePicture, posts: userPostsWLikes}
 
         return res.status(200).send(response);
     }catch (error) {
