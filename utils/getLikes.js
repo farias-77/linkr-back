@@ -5,8 +5,6 @@ export async function getPostsLikes(posts){
     for(let i=0;i<posts.length;i++){
         const {rows: likes} = await generalRepository.getPostsLikes(posts[i].postId)
         const numLikes = likes.length;
-        console.log(numLikes)
-        console.log(numLikes)
         let whoLiked = [];
         for(let j=0;j<likes.length;j++){
             whoLiked[j] = likes[j].username;
