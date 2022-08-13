@@ -6,7 +6,7 @@ export async function metadataMiddleware(req, res){
         const { url } =  req.body;
         const postId = res.locals.postId;
 
-        urlMetadata(url).then(
+        urlMetadata(`${url}`).then(
             async function (metadata) { // success handler
                 try{
                     console.log(metadata)
