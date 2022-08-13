@@ -33,7 +33,7 @@ export async function getUserInfo(req, res){
 
         const {rows: user} = userRepository.getUsername(id);
 
-        return res.status(200).send(user[0]);
+        return res.status(200).send(user);
     }catch (error) {
         return res.status(500).send(error.message);
     }
