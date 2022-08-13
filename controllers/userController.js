@@ -30,9 +30,9 @@ export async function getUserPosts(req, res){
 export async function getUserInfo(req, res){
     try{
         const id = res.locals.id;
-
-        const {rows: user} = userRepository.getUsername(id);
-
+        console.log(id)
+        const { rows: user } = userRepository.getUsername(id);
+        console.log(user)
         return res.status(200).send(user);
     }catch (error) {
         return res.status(500).send(error.message);
