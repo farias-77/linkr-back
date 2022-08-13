@@ -1,5 +1,5 @@
 import connection from "../dbStrategy/database.js";
-import jwt from "jsonwebtoken";
+import { metadataMiddleware } from "../middlewares/metadataMiddleware.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,6 +13,16 @@ export async function registerPost(req, res) {
             INSERT INTO posts ("userId", url, "postText")
                 VALUES ($1, $2, $3)
         `, [userId, url, text]);
+
+        
+        const {rows: posts} = await connection.query(`
+            SELECT * 
+            FROM posts
+            ORDER BY "createdAt" DESC
+            LIMIT 1;
+        `);
+        res.locals.postId = posts[0].id;
+        await metadataMiddleware();
 
 
         return res.sendStatus(201);
