@@ -27,8 +27,10 @@ export async function getWhoLiked(req,res){
     try{
         const postId = Number(req.params.postId);
         const { rows: whoLiked } = await likeRepository.whoLiked(postId);
-
-        return res.send(whoLiked);
+        
+        const response = whoLiked.map(object => {return object.username});
+        
+        return res.send(response);
     }catch(error){
         res.status(500).send(error.message);
     }
