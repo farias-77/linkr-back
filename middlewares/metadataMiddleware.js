@@ -10,7 +10,7 @@ export async function metadataMiddleware(req, res){
             function (metadata) { // success handler
                 console.log(metadata)
                 
-                await connection.query(`
+                connection.query(`
                     INSERT INTO metadata ("postId", title, image, description)
                     VALUES ($1, $2, $3, $4)
                 `,[postId, metadata.title, metadata.image, metadata.description]);
