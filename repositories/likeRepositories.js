@@ -16,10 +16,24 @@ async function dislike(postId,userId){
     return await connection.query(`DELETE FROM likes WHERE "postId"=$1 AND "userId"=$2`,[postId,userId]);
 }
 
+async function whoLiked(postId){
+    return connection.query(`
+        SELECT 
+            likes.*,
+            users.id,
+            users.name
+        FROM likes
+        JOIN users
+        ON users.id = likes."userId"
+        WHERE likes."postId" = $1;
+    `, [postId]);
+}
+
 
 export const likeRepository = {
     getPostbyId,
     isLiked,
     like,
-    dislike
+    dislike,
+    whoLiked
 }
