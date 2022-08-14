@@ -30,6 +30,8 @@ async function getPostsByUserId(id){
     return connection.query(`
         SELECT *
         FROM posts
+        JOIN metadata
+        ON posts.id = metadata."postId"
         WHERE posts."userId" = $1;
     `, [id]);
 }
