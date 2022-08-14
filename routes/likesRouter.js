@@ -6,6 +6,6 @@ import { likeOrDislike, getLikesList } from "../controllers/likesController.js";
 const router = Router();
 
 router.post("/like/:postId", tokenMiddleware, likeOrDislike);
-router.get("like/:postId", tokenMiddleware, getLikesList);
+router.get("/like/:postId", tokenMiddleware, getLikesList);
 
 export default router;
