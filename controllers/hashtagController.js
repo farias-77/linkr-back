@@ -1,4 +1,5 @@
 import { hashtagRepository } from "../repositories/hashtagRepositories.js";
+import { userRepository } from "../repositories/userRepositories.js";
 import { getPostsLikes } from "../utils/getLikes.js";
 
 export async function getTrendingHashtags(req,res){
@@ -19,9 +20,10 @@ export async function getSingleHashtag(req,res){
         }
         const { id: hashtagId} = possibleHashtag.rows[0];
         
-        const {rows: hashtagPosts} = await hashtagRepository.getHashtagPosts(hashtagId);
-        const hashtagPostsWLikes= await getPostsLikes(hashtagPosts);        
-        res.send(hashtagPostsWLikes);
+        const {rows: hashtagPosts} = await hashtagRepository.getHashtagPosts(hashtagId); 
+        const hashtagPostsWLikes= await getPostsLikes(hashtagPosts);
+
+        return res.status(200).send(hashtagPostsWLikes);
     }catch(error){
         res.sendStatus(500).send(error.message);
     }
