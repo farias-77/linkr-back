@@ -9,7 +9,7 @@ export async function signUp(req, res) {
     const { email, password, username, profilePicture } = user;
 
     try {
-        const emailExist = await userRepository.checkEmail(email);
+        const emailExist = await userRepository.getUser(email);
 
         if(emailExist.rowCount>0){
             return res.status(409).send("Email já cadastrado");
