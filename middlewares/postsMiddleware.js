@@ -30,3 +30,39 @@ export async function registerPostMiddleWare(req, res, next) {
         return res.status(500).send(error.message);
     }
 }
+
+export async function userValidation(req, res, next){
+    try{
+        const postId = req.params.postId;
+        const id = res.locals.id;
+
+        const { rows: post } = await connection.query(`
+            SELECT * 
+            FROM posts
+            WHERE id = $1;
+        `, [postId]);
+
+        if(post[0].userId !== id){
+            return res.status(401).send("Você não tem autorização para excluir esse post!");
+        }
+
+        next();
+    }catch(error){
+        return res.status(500).send(error.message);
+    }
+}
+
+export async function deleteLikes(req, res, next){
+    try{
+        const postId = req.params.postId;
+
+         await connection.query(`
+            DELETE FROM likes 
+            WHERE "postId" = $1;
+        `, [postId]);
+
+        next();
+    }catch(error){
+        return res.status(500).send(error.message);
+    }
+}
