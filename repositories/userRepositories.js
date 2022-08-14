@@ -30,8 +30,6 @@ async function getPostsByUserId(id){
     return connection.query(`
         SELECT *
         FROM posts
-        JOIN metadata
-        ON metadata."postId" = posts.id
         WHERE posts."userId" = $1;
     `, [id]);
 }
@@ -44,10 +42,16 @@ async function getUsername(id){
     `, [id]);
 }
 
+async function checkUsername(username){
+    return connection.query(`SELECT * FROM users WHERE username = $1;`,
+    [username]);
+}
+
 export const userRepository = {
     addUser,
     getUser,
     getUsersList,
     getPostsByUserId,
-    getUsername
+    getUsername,
+    checkUsername
 }

@@ -9,10 +9,16 @@ export async function signUp(req, res) {
     const { email, password, username, profilePicture } = user;
 
     try {
-        const { rows: userExist } = await userRepository.getUser(email)
+        const emailExist = await userRepository.checkEmail(email);
 
-        if(userExist.length !== 0) {
-            return res.sendStatus(409);
+        if(emailExist.rowCount>0){
+            return res.status(409).send("Email já cadastrado");
+        }
+
+        const userExist = await userRepository.checkUsername(username);
+        
+        if(userExist.rowCount>0){
+            return res.status(409).send("Usuário já cadastrado");
         }
 
         await userRepository.addUser(email, password, username, profilePicture);
