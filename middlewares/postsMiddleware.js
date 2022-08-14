@@ -66,3 +66,18 @@ export async function deleteLikes(req, res, next){
         return res.status(500).send(error.message);
     }
 }
+
+export async function deleteMetadata(req, res, next){
+    try{
+        const postId = req.params.postId;
+
+         await connection.query(`
+            DELETE FROM metadata 
+            WHERE "postId" = $1;
+        `, [postId]);
+
+        next();
+    }catch(error){
+        return res.status(500).send(error.message);
+    }
+}
