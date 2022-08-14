@@ -1,6 +1,5 @@
 import { likeRepository } from "../repositories/likeRepositories.js";
 
-
 export async function likeOrDislike(req,res){
     const userId = res.locals.id;
     const postId = Number(req.params.postId);
@@ -29,4 +28,17 @@ export async function likeOrDislike(req,res){
         res.status(500).send(error.message);
     }
 
+}
+
+export async function getLikesList(req, res){
+    const postId = Number(req.params.postId);
+    try{
+        const { rows: whoLiked } = await likeRepository.whoLiked(postId);
+        const response = whoLiked.map(object => {return object.username});
+
+        res.status(200).send(response);
+    }
+    catch(error){
+        res.status(500).send(error.message);
+    }
 }
