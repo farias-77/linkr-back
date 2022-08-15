@@ -57,7 +57,7 @@ export async function deletePost(req, res){
 export async function editPost(req, res) {
     try {
         const postId = req.params.postId;
-        const text = req.params.text;
+        const text = res.locals.text;
 
         await postRepository.updatePost(postId, text);
 
@@ -67,7 +67,7 @@ export async function editPost(req, res) {
             hashtags.map(hashtag => postRepository.relatePostWHashtag(postId, hashtag))
         };
 
-        return res.sendStatus(200);
+        return res.status(200).send({ text });
     } catch (error) {
         res.status(500).send(error.message);
     }
