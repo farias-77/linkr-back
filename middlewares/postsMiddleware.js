@@ -101,7 +101,9 @@ export async function editPostMiddleware(req, res, next) {
     try {
         const { text } = req.body;
         const { postId } = req.params;
-        const userId = req.params.id;
+        const userId = res.locals.id;
+        console.log(userId);
+        console.log(postId);
 
         const { error } = editPostSchema.validate({ text }, { abortEarly: false });
 
@@ -117,14 +119,14 @@ export async function editPostMiddleware(req, res, next) {
         }
 
         const { rows } = await connection.query(`
-            SELECT * FROM posts WHERE id = $1 AND  "userId" = $2
+            SELECT * FROM posts WHERE id = $1 AND "userId" = $2
         `, [postId, userId]);
 
         if (rows.length === 0) {
             return res.sendStatus(401);
         }
-        req.params.postId = postId;
-        req.params.text = text;
+        res.locals.postId = postId;
+        res.locals.text = text;
         
         next();
     } catch (error) {

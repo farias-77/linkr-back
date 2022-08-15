@@ -57,7 +57,7 @@ export async function deletePost(req, res){
 export async function editPost(req, res) {
     try {
         const postId = req.params.postId;
-        const text = req.params.text;
+        const text = res.locals.text;
 
         await postRepository.updatePost(postId, text);
 
