@@ -40,10 +40,17 @@ async function getTimelinePosts(){
                 LIMIT 20`)
 }
 
+async function updatePost(postId, text) {
+    return await connection.query(`
+                    UPDATE posts SET "postText"=$1 WHERE id = $2
+                `, [text, postId])
+}
+
 export const postRepository = {
     insertPost,
     selectLastPost,
     relatePostWHashtag,
     deletePost,
-    getTimelinePosts
+    getTimelinePosts,
+    updatePost
 }
