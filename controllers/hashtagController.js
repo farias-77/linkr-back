@@ -1,5 +1,4 @@
 import { hashtagRepository } from "../repositories/hashtagRepositories.js";
-import { userRepository } from "../repositories/userRepositories.js";
 import { getPostsLikes } from "../utils/getLikes.js";
 
 export async function getTrendingHashtags(req,res){
