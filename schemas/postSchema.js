@@ -5,3 +5,7 @@ export const registerPostSchema = joi.object({
     url: joi.string().empty().required(),
     text: joi.string()
 })
+
+export const editPostSchema = joi.object({
+    text: joi.string().empty().required()
+})

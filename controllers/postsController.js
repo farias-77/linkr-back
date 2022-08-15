@@ -54,3 +54,21 @@ export async function deletePost(req, res){
     }
 }
 
+export async function editPost(req, res) {
+    try {
+        const postId = req.params.postId;
+        const text = req.params.text;
+
+        await postRepository.updatePost(postId, text);
+
+        const hashtags = await hashtagVerifier(text);
+
+        if (hashtags.length > 0) {
+            hashtags.map(hashtag => postRepository.relatePostWHashtag(postId, hashtag))
+        };
+
+        return res.sendStatus(200);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
