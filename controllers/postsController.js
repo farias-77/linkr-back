@@ -21,7 +21,7 @@ export async function registerPost(req, res) {
         const hashtags = await hashtagVerifier(text);
 
         if (hashtags.length > 0) {
-            hashtags.map(hashtag => {console.log(hashtag);postRepository.relatePostWHashtag(posts[0].id, hashtag)})
+            hashtags.map(hashtag => postRepository.relatePostWHashtag(posts[0].id, hashtag))
         }
 
         return res.sendStatus(201);

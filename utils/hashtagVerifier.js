@@ -4,7 +4,7 @@ export async function hashtagVerifier(text){
     console.log(text)
     const arrayHashtags = text.split(' ').filter(isHashtag);
     const {rows: hashtags} = await hashtagRepository.getAllHashtags();
-    let idCounter = hashtags.length;
+    let idCounter = hashtags[0].id;
     let hashtagIdList = [];
 
     for(let i=0; i<arrayHashtags.length; i++){
