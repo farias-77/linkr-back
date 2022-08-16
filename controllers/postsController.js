@@ -31,11 +31,22 @@ export async function registerPost(req, res) {
 }
 
 export async function getTimelinePosts(req,res){
+    const limit = req.params.limit;
     try{
-        const {rows: timelinePosts} = await postRepository.getTimelinePosts(); 
+        let timelinePosts;
+        if(limit === "X"){
+            const {rows: tPosts} = await postRepository.getALLTimelinePosts(); 
+            timelinePosts = tPosts;
+        }else{
+            const {rows: tPosts} = await postRepository.getTimelinePosts(limit);
+            timelinePosts = tPosts; 
+        }
+        
         const timelinePostsWLikes= await getPostsLikes(timelinePosts);
-
-        return res.status(200).send(timelinePostsWLikes);
+        if(limit - timelinePostsWLikes.length > 10 || timelinePostsWLikes.length < 10){
+            return res.status(200).send({posts: timelinePostsWLikes, stop: true});
+        }
+        return res.status(200).send({posts: timelinePostsWLikes, stop: false});
     }catch(error){
         return res.status(500).send(error.message);
     }

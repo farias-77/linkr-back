@@ -5,7 +5,7 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/users/:searchInput", tokenMiddleware, getUsers);
-router.get("/user/:id", tokenMiddleware, getUserPosts);
+router.get("/user/:id/:limit", tokenMiddleware, getUserPosts);
 router.get("/userInfo", tokenMiddleware, getUserInfo);
 
 export default router;

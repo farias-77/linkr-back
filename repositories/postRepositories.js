@@ -36,7 +36,18 @@ async function getTimelinePosts(limit){
                 FROM posts
                 JOIN users ON users.id = posts."userId"
                 JOIN metadata ON metadata."postId" = posts.id
-                ORDER BY posts.id DESC`)
+                ORDER BY posts.id DESC
+                LIMIT $1`,[limit])
+}
+
+async function getALLTimelinePosts(limit){
+    return await connection.query(`
+                SELECT * 
+                FROM posts
+                JOIN users ON users.id = posts."userId"
+                JOIN metadata ON metadata."postId" = posts.id
+                ORDER BY posts.id DESC
+                LIMIT $1`,[limit])
 }
 
 async function updatePost(postId, text) {
@@ -68,5 +79,6 @@ export const postRepository = {
     getTimelinePosts,
     updatePost,
     insertComment, 
-    getCommentsByPostId
+    getCommentsByPostId,
+    getALLTimelinePosts
 }
