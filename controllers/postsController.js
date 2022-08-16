@@ -72,3 +72,17 @@ export async function editPost(req, res) {
         res.status(500).send(error.message);
     }
 }
+
+export async function postComment(req, res){
+    try{
+        const postId = req.params.postId;
+        const userId = res.locals.id;
+        const { comment } = req.body;
+
+        await postRepository.insertComment(postId, userId, comment);
+
+        return res.sendStatus(200);
+    }catch(error) {
+        res.status(500).send(error.message);
+    }
+}

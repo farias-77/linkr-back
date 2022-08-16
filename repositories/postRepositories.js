@@ -46,11 +46,19 @@ async function updatePost(postId, text) {
                 `, [text, postId])
 }
 
+async function insertComment(postId, userId, comment){
+    return await connection.query(`
+        INSERT INTO comments ("userId", "postId", "comment")
+        VALUES ($1, $2, $3);
+    `, [userId, postId, comment]);
+}
+
 export const postRepository = {
     insertPost,
     selectLastPost,
     relatePostWHashtag,
     deletePost,
     getTimelinePosts,
-    updatePost
+    updatePost,
+    insertComment
 }
