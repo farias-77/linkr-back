@@ -10,10 +10,9 @@ dotenv.config();
 export async function registerPost(req, res) {
     const {url, text} =  req.body;
     const userId = res.locals.id;
-    console.log(url,text)
     
     try {
-        await postRepository.insertPost(userId, url, text);
+        await postRepository.insertPost(userId, url, text, false, null); //false para isRepost e null para repostUserId 
         
         const {rows: posts} = await postRepository.selectLastPost();
         
@@ -69,6 +68,20 @@ export async function editPost(req, res) {
 
         return res.status(200).send({ text });
     } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+export async function postComment(req, res){
+    try{
+        const postId = req.params.postId;
+        const userId = res.locals.id;
+        const { comment } = req.body;
+
+        await postRepository.insertComment(postId, userId, comment);
+
+        return res.sendStatus(200);
+    }catch(error) {
         res.status(500).send(error.message);
     }
 }
