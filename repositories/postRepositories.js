@@ -30,14 +30,13 @@ async function deletePost(postId){
                     `, [postId]);
 }
 
-async function getTimelinePosts(){
+async function getTimelinePosts(limit){
     return await connection.query(`
                 SELECT * 
                 FROM posts
                 JOIN users ON users.id = posts."userId"
                 JOIN metadata ON metadata."postId" = posts.id
-                ORDER BY posts.id DESC
-                LIMIT 20`)
+                ORDER BY posts.id DESC`)
 }
 
 export const postRepository = {
