@@ -27,7 +27,7 @@ async function getHashtagPosts(hashtagId){
 }
 
 async function getAllHashtags(){
-    return await connection.query(`SELECT id, hashtag FROM hashtags`)
+    return await connection.query(`SELECT id, hashtag FROM hashtags ORDER BY id DESC;`)
 }
 
 async function insertHashtag(hashtag){
