@@ -53,6 +53,14 @@ async function insertComment(postId, userId, comment){
     `, [userId, postId, comment]);
 }
 
+async function getCommentsByPostId(postId){
+    return await connection.query(`
+        SELECT *
+        FROM comments
+        WHERE "postId" = $1;
+    `, [postId]);
+}
+
 export const postRepository = {
     insertPost,
     selectLastPost,

@@ -85,3 +85,15 @@ export async function postComment(req, res){
         res.status(500).send(error.message);
     }
 }
+
+export async function getComments(req, res){
+    try{
+        const postId = req.params.postId;
+        
+        const { rows: comments } = await postRepository.getCommentsByPostId(postId);
+
+        return res.status(200).send(comments);
+    }catch(error) {
+        res.status(500).send(error.message);
+    }
+}
