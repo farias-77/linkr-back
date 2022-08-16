@@ -5,7 +5,7 @@ import { getTrendingHashtags, getSingleHashtag } from "../controllers/hashtagCon
 
 const router = Router();
 
-router.get("/hashtag/:hashtag",tokenMiddleware, getSingleHashtag);
+router.get("/hashtag/:hashtag/:limit",tokenMiddleware, getSingleHashtag);
 router.get("/trending",tokenMiddleware, getTrendingHashtags);
 
 export default router;

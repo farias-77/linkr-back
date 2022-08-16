@@ -26,15 +26,16 @@ async function getUsersList(){
     `)
 }
 
-async function getPostsByUserId(id){
+async function getPostsByUserId(id,limit){
     return connection.query(`
         SELECT *
         FROM posts
         JOIN metadata ON posts.id = metadata."postId"
         JOIN users ON users.id = posts."userId"
         WHERE posts."userId" = $1
-        ORDER BY posts.id DESC;
-    `, [id]);
+        ORDER BY posts.id DESC
+        LIMIT $2;
+    `, [id,limit]);
 }
 
 async function getUsername(id){

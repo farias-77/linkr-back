@@ -5,7 +5,7 @@ import { tokenMiddleware } from "../middlewares/tokenMiddleware.js";
 
 const router = Router();
 
-router.get("/timeline", tokenMiddleware, getTimelinePosts);
+router.get("/timeline/:limit", tokenMiddleware, getTimelinePosts);
 router.post("/register-post", tokenMiddleware, registerPostMiddleWare, registerPost);
 router.delete("/delete-post/:postId", tokenMiddleware, userValidation, deleteLikes, deleteMetadata, deletePosts_Hashtags, deleteComments, deletePost);
 router.put("/update/:postId",tokenMiddleware,editPostMiddleware, deletePosts_Hashtags, editPost);

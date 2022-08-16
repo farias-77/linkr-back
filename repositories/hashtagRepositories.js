@@ -15,7 +15,7 @@ async function hashtagExist(hashtag){
     return await connection.query(`SELECT id FROM hashtags WHERE hashtag = $1`,[hashtag])
 }
 
-async function getHashtagPosts(hashtagId){
+async function getHashtagPosts(hashtagId,limit){
     return await connection.query(`
                 SELECT * 
                 FROM posts_hashtags
@@ -23,7 +23,8 @@ async function getHashtagPosts(hashtagId){
                 JOIN users ON users.id = posts."userId"
                 JOIN metadata ON metadata."postId" = posts.id
                 WHERE posts_hashtags."hashtagId" = $1
-                ORDER BY posts.id DESC`,[hashtagId])
+                ORDER BY posts.id DESC
+                LIMIT $2`,[hashtagId,limit])
 }
 
 async function getAllHashtags(){
