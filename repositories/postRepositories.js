@@ -55,9 +55,11 @@ async function insertComment(postId, userId, comment){
 
 async function getCommentsByPostId(postId){
     return await connection.query(`
-        SELECT *
+        SELECT comments.*, users.*
         FROM comments
-        WHERE "postId" = $1;
+        JOIN users
+        ON comments."userId" = users.id
+        WHERE comments."postId" = $1;
     `, [postId]);
 }
 
