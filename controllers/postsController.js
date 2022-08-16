@@ -10,10 +10,9 @@ dotenv.config();
 export async function registerPost(req, res) {
     const {url, text} =  req.body;
     const userId = res.locals.id;
-    console.log(url,text)
     
     try {
-        await postRepository.insertPost(userId, url, text);
+        await postRepository.insertPost(userId, url, text, false, null); //false para isRepost e null para repostUserId 
         
         const {rows: posts} = await postRepository.selectLastPost();
         

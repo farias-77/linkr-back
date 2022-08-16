@@ -1,10 +1,10 @@
 import connection from "../dbStrategy/database.js";
 
-async function insertPost(userId, url, text){
+async function insertPost(userId, url, text, isRepost, repostUserId){
     return await connection.query(`
-            INSERT INTO posts ("userId", url, "postText")
-            VALUES ($1, $2, $3)
-            `, [userId, url, text]);
+            INSERT INTO posts ("userId", url, "postText", "isRepost", "repostUserId")
+            VALUES ($1, $2, $3, $4, $5);
+            `, [userId, url, text, isRepost, repostUserId]);
 }
 
 async function selectLastPost(){
