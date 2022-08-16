@@ -133,3 +133,18 @@ export async function editPostMiddleware(req, res, next) {
         return res.status(500).send(error.message);
     }
 }
+
+export async function deleteComments(req, res, next){
+    try{
+        const postId = req.params.postId;
+
+         await connection.query(`
+            DELETE FROM comments   
+            WHERE "postId" = $1;
+        `, [postId]);
+
+        next();
+    }catch(error){
+        return res.status(500).send(error.message);
+    }
+}
