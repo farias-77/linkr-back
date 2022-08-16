@@ -67,5 +67,6 @@ export const postRepository = {
     deletePost,
     getTimelinePosts,
     updatePost,
-    insertComment
+    insertComment, 
+    getCommentsByPostId
 }
