@@ -17,7 +17,7 @@ async function selectLastPost(){
 }
 
 async function relatePostWHashtag(postId,hashtagId){
-    return connection.query(`
+    return await connection.query(`
                     INSERT INTO posts_hashtags ("postId", "hashtagId")
                     VALUES ($1, $2)
                     `, [postId, hashtagId])
