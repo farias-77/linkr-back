@@ -12,7 +12,7 @@ export async function registerPost(req, res) {
     const userId = res.locals.id;
     
     try {
-        await postRepository.insertPost(userId, url, text, null, null); //false para isRepost e null para repostUserId 
+        await postRepository.insertPost(userId, url, text); //false para isRepost e null para repostUserId 
         
         const {rows: posts} = await postRepository.selectLastPost();
         
