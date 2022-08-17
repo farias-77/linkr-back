@@ -12,8 +12,8 @@ export async function registerPost(req, res) {
     const userId = res.locals.id;
     
     try {
-         await postRepository.insertPost(userId, url, text, null, null); //null para repostId e null para repostUserId 
-        
+        const insertPost = await postRepository.insertPost(userId, url, text, null, null); //null para repostId e null para repostUserId 
+        console.log(insertPost)
         const {rows: posts} = await postRepository.selectLastPost();
         
         await metadataMiddleware(url, posts[0].id);
