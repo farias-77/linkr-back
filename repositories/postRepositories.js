@@ -1,10 +1,10 @@
 import connection from "../dbStrategy/database.js";
 
-async function insertPost(userId, url, text, isRepost, repostUserId){
+async function insertPost(userId, url, text, repostId, repostUserId){
     return await connection.query(`
-            INSERT INTO posts ("userId", url, "postText", "isRepost", "repostUserId")
+            INSERT INTO posts ("userId", url, "postText", "repostId", "repostUserId")
             VALUES ($1, $2, $3, $4, $5);
-            `, [userId, url, text, isRepost, repostUserId]);
+            `, [userId, url, text, repostId, repostUserId]);
 }
 
 async function selectLastPost(){
@@ -73,6 +73,12 @@ async function getCommentsByPostId(postId){
     `, [postId]);
 }
 
+async function countReposts(postId) {
+    connection.query(`
+     SELECT * FROM posts WHERE "repostId" = $1
+    `, [postId])
+}
+
 export const postRepository = {
     insertPost,
     selectLastPost,
@@ -82,5 +88,6 @@ export const postRepository = {
     updatePost,
     insertComment, 
     getCommentsByPostId,
-    getALLTimelinePosts
+    getALLTimelinePosts,
+    countReposts
 }
