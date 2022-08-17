@@ -12,15 +12,15 @@ export async function registerPost(req, res) {
     const userId = res.locals.id;
     
     try {
-        const insertPost = await postRepository.insertPost(userId, url, text, null, null); //null para repostId e null para repostUserId 
-        console.log(insertPost)
+        await postRepository.insertPost(userId, url, text, null, null); //null para repostId e null para repostUserId 
+
         const {rows: posts} = await postRepository.selectLastPost();
         
         await metadataMiddleware(url, posts[0].id);
         console.log("passou metadata")
         const hashtags = await hashtagVerifier(text);
 
-        if (hashtags.length > 0) {
+        if (posts[0].id && hashtags.length > 0) {
             hashtags.map(hashtag => postRepository.relatePostWHashtag(posts[0].id, hashtag))
         }
         console.log("passou relatePostWHashtag")
