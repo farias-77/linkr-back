@@ -17,7 +17,7 @@ export async function registerPost(req, res) {
         const {rows: posts} = await postRepository.selectLastPost();
         
         await metadataMiddleware(url, posts[0].id);
-        console.log("passou metadata")
+        
         const hashtags = await hashtagVerifier(text);
 
         if (posts[0].id && hashtags.length > 0) {
