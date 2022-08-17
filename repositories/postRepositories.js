@@ -74,7 +74,7 @@ async function getCommentsByPostId(postId){
 }
 
 async function countReposts(postId) {
-    connection.query(`
+    return await connection.query(`
      SELECT * FROM posts WHERE "repostId" = $1
     `, [postId])
 }
