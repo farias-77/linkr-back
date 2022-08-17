@@ -3,10 +3,7 @@ import { hashtagRepository } from "../repositories/hashtagRepositories.js";
 export async function hashtagVerifier(text){
     
     const arrayHashtags = text.split(' ').filter(isHashtag);
-    console.log(arrayHashtags)
     const {rows: hashtags} = await hashtagRepository.getAllHashtags();
-    let idCounter = hashtags[0].id;
-    console.log(idCounter)
     let hashtagIdList = [];
     
     for(let i=0; i<arrayHashtags.length; i++){
@@ -17,9 +14,9 @@ export async function hashtagVerifier(text){
             hashtagIdList.push(possibleHashtag.id);
         }
         else{
-            idCounter++;
             await hashtagRepository.insertHashtag(hashtag);
-            hashtagIdList.push(idCounter);
+            const {rows: updatedHashtags } = await hashtagRepository.getAllHashtags();
+            hashtagIdList.push(updatedHashtags[0].id);
         }
     }
     return hashtagIdList;
