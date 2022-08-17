@@ -3,14 +3,16 @@ import { hashtagRepository } from "../repositories/hashtagRepositories.js";
 export async function hashtagVerifier(text){
     
     const arrayHashtags = text.split(' ').filter(isHashtag);
+    console.log(arrayHashtags)
     const {rows: hashtags} = await hashtagRepository.getAllHashtags();
     let idCounter = hashtags[0].id;
+    console.log(idCounter)
     let hashtagIdList = [];
-    console.log("idcounter: " + idCounter)
+    
     for(let i=0; i<arrayHashtags.length; i++){
         const hashtag = arrayHashtags[i].slice(1);
         const possibleHashtag = hashtags.find(hashtags => hashtags.hashtag == hashtag);
-        console.log("possibleHashtag" + possibleHashtag)
+        
         if(possibleHashtag !== undefined){
             hashtagIdList.push(possibleHashtag.id);
         }
