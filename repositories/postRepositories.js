@@ -4,7 +4,7 @@ async function insertPost(userId, url, text, repostId, repostUserId){
     return await connection.query(`
             INSERT INTO posts ("userId", url, "postText", "repostId", "repostUserId")
             VALUES ($1, $2, $3, $4, $5);
-            `, [userId, url, text, isRepost, repostUserId]);
+            `, [userId, url, text, repostId, repostUserId]);
 }
 
 async function selectLastPost(){
@@ -36,7 +36,18 @@ async function getTimelinePosts(limit){
                 FROM posts
                 JOIN users ON users.id = posts."userId"
                 JOIN metadata ON metadata."postId" = posts.id
-                ORDER BY posts.id DESC`)
+                ORDER BY posts.id DESC
+                LIMIT $1`,[limit])
+}
+
+async function getALLTimelinePosts(limit){
+    return await connection.query(`
+                SELECT * 
+                FROM posts
+                JOIN users ON users.id = posts."userId"
+                JOIN metadata ON metadata."postId" = posts.id
+                ORDER BY posts.id DESC
+                LIMIT $1`,[limit])
 }
 
 async function updatePost(postId, text) {
@@ -62,6 +73,12 @@ async function getCommentsByPostId(postId){
     `, [postId]);
 }
 
+async function countReposts(postId) {
+    connection.query(`
+     SELECT * FROM posts WHERE "repostId" = $1
+    `, [postId])
+}
+
 export const postRepository = {
     insertPost,
     selectLastPost,
@@ -70,5 +87,7 @@ export const postRepository = {
     getTimelinePosts,
     updatePost,
     insertComment, 
-    getCommentsByPostId
+    getCommentsByPostId,
+    getALLTimelinePosts,
+    countReposts
 }

@@ -16,16 +16,22 @@ export async function getUsers(req, res){
 
 export async function getUserPosts(req, res){
     try{
+        const { limit } = req.params;
+        console.log(limit)
         const { id } = req.params;
         
-        const { rows: postsList } = await userRepository.getPostsByUserId(id);
+        const { rows: postsList } = await userRepository.getPostsByUserId(id,limit);
         const { rows: usernameDb } = await userRepository.getUsername(id);
 
         const userPostsWLikes = await getPostsLikes(postsList);
 
-        const response = {username: usernameDb[0].username, profilePicture: usernameDb[0].profilePicture, posts: userPostsWLikes}
-
-        return res.status(200).send(response);
+        if(limit - userPostsWLikes.length > 10 || userPostsWLikes.length < 10){
+            console.log(userPostsWLikes)
+            return res.status(200).send({username: usernameDb[0].username, profilePicture: usernameDb[0].profilePicture, posts: userPostsWLikes, stop: true})
+        }
+        else{
+            return res.status(200).send({username: usernameDb[0].username, profilePicture: usernameDb[0].profilePicture, posts: userPostsWLikes, stop: false})
+        }
     }catch (error) {
         return res.status(500).send(error.message);
     }
