@@ -23,7 +23,7 @@ export async function registerPost(req, res) {
         if (posts[0].id && hashtags.length > 0) {
             hashtags.map(hashtag => postRepository.relatePostWHashtag(posts[0].id, hashtag))
         }
-        console.log("passou relatePostWHashtag")
+
         return res.sendStatus(201);
     } catch (error){ 
         return res.status(500).send(error.message);
