@@ -12,7 +12,7 @@ export async function registerPost(req, res) {
     const userId = res.locals.id;
     
     try {
-        await postRepository.insertPost(userId, url, text, false, null); //false para isRepost e null para repostUserId 
+        await postRepository.insertPost(userId, url, text, null, null); //false para isRepost e null para repostUserId 
         
         const {rows: posts} = await postRepository.selectLastPost();
         
@@ -114,7 +114,7 @@ export async function registerRepost(req, res) {
     const repostUserId  = res.locals.id;
     
     try {
-        await postRepository.insertPost(userId, url, text, true, repostUserId );
+        await postRepository.insertPost(userId, url, text, null, repostUserId );
         const {rows: posts} = await postRepository.selectLastPost();
         
         await metadataMiddleware(url, posts[0].id);
