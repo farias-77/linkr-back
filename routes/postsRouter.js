@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerPost, deletePost, getTimelinePosts, editPost, postComment, getComments } from "../controllers/postsController.js";
+import { registerPost, deletePost, getTimelinePosts, editPost, postComment, getComments, registerRepost, getRepostCount } from "../controllers/postsController.js";
 import { registerPostMiddleWare, userValidation, deleteLikes, deleteMetadata, deletePosts_Hashtags, deleteComments, editPostMiddleware } from "../middlewares/postsMiddleware.js";
 import { tokenMiddleware } from "../middlewares/tokenMiddleware.js";
 
@@ -11,5 +11,7 @@ router.delete("/delete-post/:postId", tokenMiddleware, userValidation, deleteLik
 router.put("/update/:postId",tokenMiddleware,editPostMiddleware, deletePosts_Hashtags, editPost);
 router.post("/comment/:postId", tokenMiddleware, postComment);
 router.get("/comment/:postId", tokenMiddleware, getComments);
+router.post("/repost/:postId", tokenMiddleware, registerRepost);
+router.get("/repost/:postId", tokenMiddleware, getRepostCount );
 
 export default router;

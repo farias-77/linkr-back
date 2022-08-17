@@ -108,3 +108,36 @@ export async function getComments(req, res){
         res.status(500).send(error.message);
     }
 }
+
+export async function registerRepost(req, res) {
+    const {userId, url, text} =  req.body;
+    const repostUserId  = res.locals.id;
+    
+    try {
+        await postRepository.insertPost(userId, url, text, true, repostUserId );
+        const {rows: posts} = await postRepository.selectLastPost();
+        
+        await metadataMiddleware(url, posts[0].id);
+
+        const hashtags = await hashtagVerifier(text);
+
+        if (hashtags.length > 0) {
+            hashtags.map(hashtag => postRepository.relatePostWHashtag(posts[0].id, hashtag))
+        }
+
+        return res.sendStatus(201);
+    } catch (error){ 
+        return res.status(500).send(error.message);
+    }
+}
+
+export async function getRepostCount(req, res) {
+    const postId = req.params.postId;   
+
+    try {
+        const {rows: posts} = await postRepository.countReposts(postId);
+        return res.status(200).send(posts);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
