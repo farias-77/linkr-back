@@ -112,9 +112,10 @@ export async function getComments(req, res){
 export async function registerRepost(req, res) {
     const {userId, url, text} =  req.body;
     const repostUserId  = res.locals.id;
+    const repostId = req.params.repostId
     
     try {
-        await postRepository.insertPost(userId, url, text, null, repostUserId );
+        await postRepository.insertPost(userId, url, text, repostId, repostUserId );
         const {rows: posts} = await postRepository.selectLastPost();
         
         await metadataMiddleware(url, posts[0].id);
@@ -132,11 +133,11 @@ export async function registerRepost(req, res) {
 }
 
 export async function getRepostCount(req, res) {
-    const postId = req.params.postId;   
+    const postId = req.params.postId; 
 
     try {
-        const {rows: posts} = await postRepository.countReposts(postId);
-        return res.status(200).send(posts);
+        const rePosts = await postRepository.countReposts(postId);
+        return res.status(200).send(rePosts.rows);
     } catch (error) {
         return res.status(500).send(error.message);
     }
