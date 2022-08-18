@@ -149,7 +149,7 @@ export async function deleteComments(req, res, next){
     }
 }
 
-export async function deleteReposts(req, res){
+export async function deleteReposts(req, res, next){
     try {
         const postId = req.params.postId;
         
@@ -158,6 +158,7 @@ export async function deleteReposts(req, res){
             WHERE "repostId" = $1;
         `, [postId]);
 
+        next();
     } catch (error) {
         return res.status(500).send(error.message);
     }
