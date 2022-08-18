@@ -1,9 +1,9 @@
-import connection from "../dbStrategy/database.js";
 import { metadataMiddleware } from "../middlewares/metadataMiddleware.js";
 import dotenv from "dotenv";
 import { hashtagVerifier } from "../utils/hashtagVerifier.js";
 import { postRepository } from "../repositories/postRepositories.js";
 import { getPostsLikes } from "../utils/getLikes.js";
+import { getPostsFilteredPerFollows } from "../utils/filterPostsByFollows.js";
  
 dotenv.config();
 
@@ -32,6 +32,7 @@ export async function registerPost(req, res) {
 
 export async function getTimelinePosts(req,res){
     const limit = req.params.limit;
+    const userId = res.locals.id;
     try{
         let timelinePosts;
         if(limit === "X"){
@@ -42,7 +43,9 @@ export async function getTimelinePosts(req,res){
             timelinePosts = tPosts; 
         }
         
-        const timelinePostsWLikes= await getPostsLikes(timelinePosts);
+        const filteredPosts = await getPostsFilteredPerFollows(userId,timelinePosts)
+        console.log(filteredPosts);
+        const timelinePostsWLikes= await getPostsLikes(filteredPosts);
         if(limit - timelinePostsWLikes.length > 10 || timelinePostsWLikes.length < 10){
             return res.status(200).send({posts: timelinePostsWLikes, stop: true});
         }
