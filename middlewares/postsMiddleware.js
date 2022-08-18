@@ -148,3 +148,17 @@ export async function deleteComments(req, res, next){
         return res.status(500).send(error.message);
     }
 }
+
+export async function deleteReposts(req, res){
+    try {
+        const postId = req.params.postId;
+        
+        await connection.query(`
+            DELETE FROM posts
+            WHERE "repostId" = $1;
+        `, [postId]);
+
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
