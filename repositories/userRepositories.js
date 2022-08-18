@@ -51,11 +51,18 @@ async function checkUsername(username){
     [username]);
 }
 
+async function getUserById(id){
+    return await connection.query(`
+        SELECT username FROM users WHERE id = $1;
+    `, [id]);
+}
+
 export const userRepository = {
     addUser,
     getUser,
     getUsersList,
     getPostsByUserId,
     getUsername,
-    checkUsername
+    checkUsername,
+    getUserById
 }
