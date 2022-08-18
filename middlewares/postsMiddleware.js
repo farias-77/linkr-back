@@ -149,10 +149,33 @@ export async function deleteComments(req, res, next){
     }
 }
 
+export async function deleteRepostsMetadata(req, res, next){
+    try {
+        const postId = req.params.postId;
+
+        const { rows: repostsIds } = await connection.query(`
+            SELECT *
+            FROM posts
+            WHERE "repostId" = $1;
+        `, [postId]);
+
+        repostsIds.map(repostId => {
+            await connection.query(`
+                DELETE FROM metadata
+                WHERE "postId" = $1;
+            `, [repostId]);
+        });
+
+        next();
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
 export async function deleteReposts(req, res, next){
     try {
         const postId = req.params.postId;
-        
+
         await connection.query(`
             DELETE FROM posts
             WHERE "repostId" = $1;
