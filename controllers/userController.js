@@ -49,20 +49,30 @@ export async function getUserInfo(req, res){
     }
 }
 
+
 export async function followUser(req, res) {
     try{
         const myId = res.locals.id;
         const  { followedId } = res.locals;
-
-    
+      
         await connection.query(`
         INSERT INTO follows ("followerId", "followedId")
         VALUES ($1, $2)
         `, [myId, followedId]);
 
         return res.sendStatus(200);
-
     } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
+export async function getUserById(req, res){
+    try{
+        const id = req.params.id;
+        const { rows: userInfo } = await userRepository.getUserById(id);
+
+        return res.status(200).send(userInfo);
+    }catch (error) {
         return res.status(500).send(error.message);
     }
 }

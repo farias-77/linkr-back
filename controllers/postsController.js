@@ -112,7 +112,7 @@ export async function getComments(req, res){
 export async function registerRepost(req, res) {
     const {userId, url, text} =  req.body;
     const repostUserId  = res.locals.id;
-    const repostId = req.params.repostId
+    const repostId = req.params.postId
     
     try {
         await postRepository.insertPost(userId, url, text, repostId, repostUserId );
