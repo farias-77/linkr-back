@@ -159,7 +159,7 @@ export async function deleteRepostsMetadata(req, res, next){
             WHERE "repostId" = $1;
         `, [postId]);
 
-        repostsIds.map(repostId => {
+        repostsIds.map(async (repostId) => {
             await connection.query(`
                 DELETE FROM metadata
                 WHERE "postId" = $1;
