@@ -4,10 +4,7 @@ export async function getPostsFilteredPerFollows(userId, posts, res){
     const following = await userRepository.getFollowedByUser(userId);
 
     const followingArray = following.rows.map(convertToArray);
-    if(followingArray.length === 0){
-        
-        return res.status(200).send({posts: "You don't follow anyone yet. Search for new friends!", stop: true})
-    }
+    
     let sendablePosts = [];
     for(let i=0;i<posts.length;i++){
         if(posts[i].repostUserId === null){
