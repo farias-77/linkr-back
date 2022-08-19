@@ -79,7 +79,7 @@ export async function getUserById(req, res){
 export async function getUserFollows(req, res){
     try{
         const id = req.params.id;
-        const { rows: userFollows } = await userRepository.getFollowedByUser(id);
+        const { rows: userFollows } = await userRepository.getUserFollows(id);
 
         return res.status(200).send(userFollows);
     }catch (error) {

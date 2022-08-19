@@ -65,6 +65,14 @@ async function getFollowedByUser(userId){
 `, [userId]);
 }
 
+async function getUserFollows(id){
+    return await connection.query(`
+        SELECT "followedId" as "id"
+        FROM follows
+        WHERE "followerId" = $1;
+    `, [id]);
+}
+
 export const userRepository = {
     addUser,
     getUser,
@@ -73,5 +81,6 @@ export const userRepository = {
     getUsername,
     checkUsername,
     getUserById,
-    getFollowedByUser
+    getFollowedByUser,
+    getUserFollows
 }
