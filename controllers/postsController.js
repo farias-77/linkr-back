@@ -41,7 +41,7 @@ export async function getTimelinePosts(req,res){
         const filteredPosts = await getPostsFilteredPerFollows(userId,timelinePosts)
         const timelinePostsWLikes= await getPostsLikes(filteredPosts);
         if(limit !== "X"){
-            const sendablePosts = timelinePostsWLikes.slice(limit); 
+            const sendablePosts = timelinePostsWLikes.slice(0,limit); 
             return res.status(200).send({posts: sendablePosts, stop: false});
         }
         if(limit - timelinePostsWLikes.length > 10 || timelinePostsWLikes.length < 10){
