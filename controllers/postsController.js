@@ -38,7 +38,7 @@ export async function getTimelinePosts(req,res){
         const timelinePosts = tPosts;
         
         
-        const filteredPosts = await getPostsFilteredPerFollows(userId,timelinePosts)
+        const filteredPosts = await getPostsFilteredPerFollows(userId,timelinePosts, res)
         const timelinePostsWLikes= await getPostsLikes(filteredPosts);
         if(limit !== "X"){
             if(limit - timelinePostsWLikes.slice(0,limit).length > 10 || timelinePostsWLikes.slice(0,limit).length < 10){
