@@ -34,18 +34,16 @@ export async function getTimelinePosts(req,res){
     const limit = req.params.limit;
     const userId = res.locals.id;
     try{
-        let timelinePosts;
-        if(limit === "X"){
-            const {rows: tPosts} = await postRepository.getALLTimelinePosts(); 
-            timelinePosts = tPosts;
-        }else{
-            const {rows: tPosts} = await postRepository.getTimelinePosts(limit);
-            timelinePosts = tPosts; 
-        }
+        const {rows: tPosts} = await postRepository.getALLTimelinePosts(); 
+        const timelinePosts = tPosts;
+        
         
         const filteredPosts = await getPostsFilteredPerFollows(userId,timelinePosts)
-        console.log(filteredPosts);
         const timelinePostsWLikes= await getPostsLikes(filteredPosts);
+        if(limit !== "X"){
+            const sendablePosts = timelinePostsWLikes.slice(limit); 
+            return res.status(200).send({posts: sendablePosts, stop: false});
+        }
         if(limit - timelinePostsWLikes.length > 10 || timelinePostsWLikes.length < 10){
             return res.status(200).send({posts: timelinePostsWLikes, stop: true});
         }
