@@ -1,4 +1,4 @@
-import { getUsers, getUserPosts, getUserInfo, getUserById, followUser } from "../controllers/userController.js";
+import { getUsers, getUserPosts, getUserInfo, getUserById, followUser, getUserFollows } from "../controllers/userController.js";
 import { tokenMiddleware } from "../middlewares/tokenMiddleware.js";
 import { followMiddleware } from "../middlewares/followMIddleware.js";
 import { Router } from "express";
@@ -10,5 +10,6 @@ router.get("/user/:id/:limit", tokenMiddleware, getUserPosts);
 router.get("/userInfo", tokenMiddleware, getUserInfo);
 router.post("/follow/:id", tokenMiddleware, followMiddleware, followUser);
 router.get("/user/:id", tokenMiddleware, getUserById);
+router.get("/user-follows", tokenMiddleware, getUserFollows);
 
 export default router;
