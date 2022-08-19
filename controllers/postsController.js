@@ -69,7 +69,7 @@ export async function editPost(req, res) {
     try {
         const postId = req.params.postId;
         const text = res.locals.text;
-
+        
         await postRepository.updatePost(postId, text);
 
         const hashtags = await hashtagVerifier(text);

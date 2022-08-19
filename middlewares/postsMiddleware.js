@@ -186,3 +186,27 @@ export async function deleteReposts(req, res, next){
         return res.status(500).send(error.message);
     }
 }
+
+export async function editReposts(req, res, next){
+    try {
+        const postId = req.params.postId;
+        const text = res.locals.text;
+
+        const { rows: reposts } = await connection.query(`
+            SELECT *
+            FROM posts
+            WHERE "repostId" = $1;
+        `, [postId]);
+
+        reposts.map(async (reposts) => {
+            await connection.query(`
+                UPDATE posts 
+                SET "postText"=$1 WHERE id = $2
+            `, [text, reposts.id]);
+        });
+
+        next();
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
