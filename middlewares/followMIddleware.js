@@ -19,7 +19,7 @@ export async function followMiddleware(req, res, next) {
         `, [followedId])
 
         if (!rowCount) {
-            return res.sendStatus(409);
+            return res.sendStatus(404);
         }
         res.locals.followedId = followedId;
         next();
