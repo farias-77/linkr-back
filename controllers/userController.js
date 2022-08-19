@@ -76,6 +76,21 @@ export async function getUserById(req, res){
     }
 }
 
+export async function unfollowUser(req, res) {
+    try {
+        const myId = res.locals.id;
+        const  { followedId } = res.locals;
+
+        const { rowCount } = await connection.query(`
+            DELETE FROM follows WHERE "followedId" = $1 AND "followerId" = $2
+        `, [followedId, myId]);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
 export async function getUserFollows(req, res){
     try{
         const id = res.locals.id;
