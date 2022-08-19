@@ -44,7 +44,7 @@ export async function getTimelinePosts(req,res){
             const sendablePosts = timelinePostsWLikes.slice(0,limit); 
             return res.status(200).send({posts: sendablePosts, stop: false});
         }
-        if(limit - timelinePostsWLikes.length > 10 || timelinePostsWLikes.length < 10){
+        if(limit - timelinePostsWLikes.slice(0,limit).length > 10 || timelinePostsWLikes.slice(0,limit).length < 10){
             return res.status(200).send({posts: timelinePostsWLikes, stop: true});
         }
         return res.status(200).send({posts: timelinePostsWLikes, stop: false});
