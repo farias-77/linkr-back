@@ -67,7 +67,7 @@ async function getFollowedByUser(userId){
 
 async function getUserFollows(id){
     return await connection.query(`
-        SELECT "followedId" as "id"
+        SELECT *
         FROM follows
         WHERE "followerId" = $1;
     `, [id]);
