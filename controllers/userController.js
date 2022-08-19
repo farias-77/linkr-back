@@ -49,7 +49,6 @@ export async function getUserInfo(req, res){
     }
 }
 
-
 export async function followUser(req, res) {
     try{
         const myId = res.locals.id;
@@ -88,6 +87,17 @@ export async function unfollowUser(req, res) {
 
         return res.sendStatus(200);
     } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
+export async function getUserFollows(req, res){
+    try{
+        const id = res.locals.id;
+        const { rows: userFollows } = await userRepository.getUserFollows(id);
+
+        return res.status(200).send(userFollows);
+    }catch (error) {
         return res.status(500).send(error.message);
     }
 }
