@@ -41,11 +41,11 @@ export async function getTimelinePosts(req,res){
         const filteredPosts = await getPostsFilteredPerFollows(userId,timelinePosts)
         const timelinePostsWLikes= await getPostsLikes(filteredPosts);
         if(limit !== "X"){
+            if(limit - timelinePostsWLikes.slice(0,limit).length > 10 || timelinePostsWLikes.slice(0,limit).length < 10){
+                return res.status(200).send({posts: timelinePostsWLikes.slice(0,limit), stop: true});
+            }
             const sendablePosts = timelinePostsWLikes.slice(0,limit); 
             return res.status(200).send({posts: sendablePosts, stop: false});
-        }
-        if(limit - timelinePostsWLikes.slice(0,limit).length > 10 || timelinePostsWLikes.slice(0,limit).length < 10){
-            return res.status(200).send({posts: timelinePostsWLikes, stop: true});
         }
         return res.status(200).send({posts: timelinePostsWLikes, stop: false});
     }catch(error){
